@@ -14,11 +14,11 @@ class Ctrl
 				b: 35
 
 		@hor = d3.scale.linear()
-				.domain [0,10]
+				.domain [0,5]
 				.range [0,@width]
 
 		@ver = d3.scale.linear()
-			.domain [0, 8]
+			.domain [0, 5]
 			.range [@height, 0]
 
 		@line = d3.svg.line()

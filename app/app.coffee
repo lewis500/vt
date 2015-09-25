@@ -16,35 +16,38 @@ class Ctrl
 		@scope.$watch =>
 				@cycle + @delta + @d + @red + @vf + @w + @q0
 			, =>
-				@kj = @q0*(1/@w + 1/@vf)
+				@k0 = @q0/@vf
+				@kj = @k0 + @q0/@w
 				@red_time = @red*@cycle
 				@mfd = @find_mfd()
 
 	solve:->
 		res = []
-		[x,g,l] = [0,1000,0]
-		while g>0
-			t = @red_time + x/@vf
-			g = @green_left t,l
-			time_stopped = Math.max 0,g
+		[x,time_stopped,l] = [0,1000,0]
+		while time_stopped>0 and l<10
+			time_traveling = x/@vf
+			time_arrival = @red_time + time_traveling
+			time_stopped = @green_left time_arrival,l
 			res.push 
 				x: x
-				t: t
-				g: g
+				t: time_arrival+time_stopped
+				g: time_stopped
 				l: l
 				c: @q0*time_stopped
 			x+=@d
 			l+=1
-		[x,g,l] = [-@d/@.w, 1000,-1]
-		while g>0
-			t = @red_time + -x/@w
-			g = @green_left t,l
+
+		[x,time_stopped,l] = [-@d/@w, 1000,-1]
+		while time_stopped>0 and l>-10
+			time_traveling= -x/@w
+			time_arrival = @red_time + time_traveling
+			time_stopped = @green_left time_arrival,l
 			res.push
 				x: x
-				t: t
-				g: g
+				t: time_arrival + time_stopped
+				g: time_stopped
 				l: l
-				c: @kj*t
+				c: @kj*time_traveling + @q0*time_stopped
 			x-=@d
 			l-=1
 		res
@@ -52,7 +55,7 @@ class Ctrl
 	green_left: (t,l)->
 		leftover = (t+Math.abs(l)*@delta)%@cycle
 		if leftover<@red_time
-			leftover - @red_time
+			0
 		else
 			@cycle-leftover
 
@@ -61,7 +64,7 @@ class Ctrl
 		flow = Infinity
 		res
 		for e in table
-			flow_l = (e.c + k*e.x)/(e.t-@red_time)
+			flow_l = (e.c + k*e.x)/(e.t)
 			if flow_l<flow
 				flow = flow_l
 				res = e
@@ -70,7 +73,7 @@ class Ctrl
 		return res
 
 	find_mfd:->
-		(@find_min k for k in _.range(0,10,1/4))
+		(@find_min k for k in _.range(0,10,1/5))
 
 
 visDer = ->
