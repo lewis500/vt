@@ -1,0 +1,105 @@
+@import "../bower_components/material-color/material-color";
+@import (inline) "../node_modules/angular-material/angular-material.css";
+
+
+svg.vis{
+	width: 450px;
+}
+
+svg.vis, cum-chart{
+	display: inline block;
+}
+
+.car{
+	rx: .2px;
+	ry: .25px;
+	// stroke: @clr-grey-900;
+	// stroke-width: .3px;
+	// opacity: .7;
+}
+
+input[type="number"] {
+  text-align: center; 
+}
+
+.memory{
+	fill: @clr-purple-500;
+	opacity: 0.8;
+}
+
+.signal{
+	stroke: @clr-grey-800;
+	stroke-width: .3px;
+	rx: .2px;
+	ry: .2px;
+	fill-opacity: .85;
+	fill: @clr-green-400;
+	transition: transform .2s ease-in-out;
+}
+
+// .g-car.ng-enter{
+// 	opacity: 0;
+// 	transition: all linear 100ms;
+// }
+
+// .g-car.ng-enter-active{
+// 	opacity: 1;
+// }
+
+.signal.red{
+	fill: @clr-red-400;
+	transform: scale(1.2);
+	transition: transform .2s ease-in-out;
+}
+
+.road{
+	fill: none;
+	stroke-width: 5px;
+	stroke: @clr-grey-300;
+}
+
+.gradient circle{
+	stroke: @clr-grey-900;
+	stroke-width: .2px;
+	// opacity: .5;
+}
+
+circle.dot{
+	fill: @clr-light-blue-500;
+	// stroke: white;
+	// stroke-width: .3;
+}
+rect.bg{
+	fill: @clr-grey-100;
+	// stroke: none;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.chart path{
+	stroke-width: 1px;
+	fill: none;
+}
+
+.en {
+	stroke: @clr-pink-500;
+}
+
+.flow{
+	stroke: @clr-green-500;
+}
+
+.ex {
+	stroke: @clr-light-blue-500;
+}
+
+
+text.label{
+	font-size: 5px;
+	text-anchor: middle;
+}
