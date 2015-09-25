@@ -14,10 +14,9 @@ class Signal
 
 	tick: ->
 		@count++
-		if (@count) >= (S.phase)
+		if @count > S.cycle
 			[@count, @green] = [0, true]
-			return
-		if (@count)>= (S.green*S.phase)
+		if (@count)>=((1-S.red)*S.cycle)
 			@green = false
 
 module.exports = Signal

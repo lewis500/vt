@@ -6,9 +6,11 @@ class Cell
 		@last = -Infinity
 		@temp_car = @car = false
 		@id = _.uniqueId 'cell'
+		@signal = undefined
 
 	set_signal: (@signal)->
 		@signal.loc = @loc
+		@signal.cell = this
 
 	clear_signal: ->
 		@signal = undefined
@@ -25,13 +27,12 @@ class Cell
 		@temp_car = false
 
 	finalize: ->
-		@signal?.tick()
 		if (@car=@temp_car)
 			@last = S.time
 
 	is_free: ->
 		if @signal
-			@signal.green and (S.time-@last)>@space
+			return (@signal.green and ((S.time-@last)>@space))
 		else
 			(S.time-@last)>@space
 

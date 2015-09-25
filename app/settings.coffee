@@ -6,7 +6,7 @@ class Settings
 	constructor:->
 		_.assign this,
 			num_cells: 2000
-			_num_cars: 100
+			_num_cars: 300
 			_k: 300/2000
 			_num_signals: 50
 			_offset: .3
