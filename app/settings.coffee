@@ -1,27 +1,23 @@
 d3 = require 'd3'
 _ = require 'lodash'
+require './helpers'
 
 class Settings
 	constructor:->
 		_.assign this,
-			num_cars: 1500
+			num_cells: 5000
+			_num_cars: 100
+			_k: 300/1000
+			_num_signals: 0
+			_offset: .3
+			_d: 3
 			time: 0
 			space: 3
-			pace: 1
-			distance: 90
-			sample: 30
-			beta: .5
-			gamma: 2
-			offset: 0
-			rush_length: 800
-			# frequency: 8
-			num_cells: 1000
-			phase: 50
-			green: .5
-			wish: 400
-			num_signals: 20
-			day: 0
-			offset: .3
+			red: .5
+			cycle: 50
+			vf: 3
+			w: 1
+			q0: 3
 
 		@colors = d3.scale.linear()
 			.domain _.range 0,@num_cells,@num_cells/6
@@ -33,14 +29,60 @@ class Settings
 				'#FFC107', #amber
 				'#4CAF50', #green
 				]
+
 		@scale = d3.scale.linear()
 			.domain [0,@num_cells]
 			.range [0,360]
 
+	sum: ->
+		@cycle
+
+	@property 'num_cars', 
+		get:->
+			@_num_cars
+		set:(num_cars)->
+			@_num_cars = Math.round num_cars
+			@_k = v/S.num_cells
+
+	@property 'k',
+		get:->
+			@_k
+		set:(k)->
+			@_k = k
+			@_num_cars = Math.round k*S.num_cells
+
+	@property 'delta',
+		get: ->
+			@_offset*@cycle
+
+	@property 'red_time',
+		get:->
+			@cycle * @red
+
+	@property 'd', 
+		get:->
+			@_d
+		set:(d)->
+			@_num_signals = Math.round @num_cells/d
+			@_d = @num_cells/@_num_signals
+			@_offset = Math.round(@_offset * @_num_signals)/@_num_signals
+
+	@property 'num_signals',
+		get:->
+			@_num_signals
+		set: (num_signals)->
+			@_num_signals = @num_signals
+			@_d = Math.round @num_cells/@_num_signals
+			@_offset = Math.round(@_offset * @num_signals)/@num_signals
+
+	@property 'offset',
+		get:->
+			@_offset
+		set:(offset)->
+			@_offset = Math.round(@_offset * @num_signals)/@num_signals
+
+
 	advance: ->
 		@time++
-	reset_time: ->
-		@day++
-		@time = 0
 
 module.exports = new Settings()
