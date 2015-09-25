@@ -16,15 +16,19 @@ class Ctrl
 
 		@scope.S = S
 
+		# on_change = _.throttle =>
+		# 		@on_change()
+		# 	, 100
+
 		@scope.$watch ->
 			S.sum()
-		, =>
-			@on_change()
+		, @on_change.bind(this)
 		, true
+
 		
 	on_change: ->
-		@data_theory = @solver.find_mfd()
-		@traffic.reset()		
+			@data_theory = @solver.find_mfd()
+			@traffic.reset()
 
 	rotator: (car)-> "rotate(#{S.scale(car.loc)}) translate(0,50)"
 

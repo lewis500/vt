@@ -1,8 +1,8 @@
 
 <div layout="layout" flex="flex">
   <div flex="10" layout="layout" layout-align="center center"><span class="md-body-1">{{label}}</span></div>
-  <md-slider flex="flex" ng-model="myData" min="{{min}}" max="{{max}}" step="{{step}}"> </md-slider>
+  <md-slider flex="flex" ng-model="myData" min="{{min}}" max="{{max}}" step="{{step}}" ng-model-options="{ getterSetter: getter }"> </md-slider>
   <div flex="20" layout="layout" layout-align="center center">
-    <input ng-model="myData" type="number" min="{{min}}" max="{{max}}" step="{{step}}"/>
+    <input ng-model="myData" type="number" min="{{min}}" max="{{max}}" step="{{step}}" ng-model-options="{ getterSetter: getter }"/>
   </div>
 </div>

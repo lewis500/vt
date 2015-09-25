@@ -48,18 +48,19 @@ class Solver
 
 	find_min: (k)->
 		flow = Infinity
-		res
+		res = {}
 		for e in @table
 			flow_l = (e.c + k*e.x)/(e.t)
 			if flow_l<flow
 				flow = flow_l
-				res = e
+				res = _.clone e
 		res.k = k
 		res.q = flow
 		return res
 
 	find_mfd:->
 		@table = @solve()
-		(@find_min k for k in _.range .2,10,1/5 )
+		a = []
+		res = (@find_min k for k in _.range 0,8,1/5)
 
 module.exports = Solver

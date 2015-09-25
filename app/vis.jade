@@ -1,13 +1,17 @@
-div(layout='row')
+div(layout='row' flex)
+	//- md-switch(flex='20' ng-model='vm.paused' ng-change='vm.click(vm.paused)') {{vm.paused? 'Paused' : 'Play'}}
 	div(layout='column' flex)
-		//- md-switch(flex='20' ng-model='vm.paused' ng-change='vm.click(vm.paused)') {{vm.paused? 'Paused' : 'Play'}}
-		//- slider-der(flex min= '2' max='50' step='1' label='cycle' my-data='S.cycle')
-		//- slider-der(flex min= '0' max='1' step='.1' label='offset' my-data='S.offset')
-		//- slider-der(flex min= '1' max='10' step='.5' label='distance d' my-data='S.d')
+		slider-der(flex min= '5' max='100' step='1' label='cycle' my-data='S.cycle')
+		slider-der(flex min= '0' max='1' step='.1' label='offset' my-data='S.offset' getter='true')
+		slider-der(flex min= '1' max='100' step='5' label='d' my-data='S.d' getter='true')
+	div(layout='column' flex)
+		slider-der(flex min= '0.1' max='1' step='.1' label='red' my-data='S.red')
+		slider-der(flex min= '5' max='200' step='5' label='#signals' my-data='S.num_signals' getter='true')
+		slider-der(flex min= '.25' max='5' step='.25' label='q_0' my-data='S.q0')
+
 		//- slider-der(flex min= '0' max='.99' step='.01' label='red' my-data='S.red')
 		//- slider-der(flex min= '.2' max='5' step='.05' label='v_f' my-data='S.vf')
 		//- slider-der(flex min= '.2' max='(S.vf/2)' step='.05' label='w' my-data='S.w')
-		//- slider-der(flex min= '.2' max='5'  step='.05' label='q_0' my-data='S.q0')
 			
 svg.vis(version="1.1" baseProfile="basic" x="0" y="0" viewBox="0 0 110 110")
 	g.g-main(transform='translate(55,55)')

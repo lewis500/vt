@@ -11,13 +11,13 @@ class Traffic
 	reset: ->
 		num_cars = S.num_cars
 		num_cells = S.num_cells
+		num_signals = S.num_signals
 		@cars = [0...S.num_cars].map -> new Car()
 		@signals = []
-		cell.clear_signal() for cell in @cells
-		for i in [0...S.num_signals]
+		for i in [0...num_signals]
 			signal = new Signal i
 			@signals.push signal
-			which = Math.floor(i/num_cars*S.num_cells)
+			which = Math.floor(i/num_signals*num_cells)
 			@cells[which].set_signal signal
 
 		for c,i in @cars

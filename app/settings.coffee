@@ -5,12 +5,12 @@ require './helpers'
 class Settings
 	constructor:->
 		_.assign this,
-			num_cells: 5000
+			num_cells: 2000
 			_num_cars: 100
-			_k: 300/1000
-			_num_signals: 0
+			_k: 300/2000
+			_num_signals: 50
 			_offset: .3
-			_d: 3
+			_d: 2000/50
 			time: 0
 			space: 3
 			red: .5
@@ -35,7 +35,7 @@ class Settings
 			.range [0,360]
 
 	sum: ->
-		@cycle
+		@cycle + @offset + @q0 + @red + @d
 
 	@property 'num_cars', 
 		get:->
@@ -71,15 +71,15 @@ class Settings
 		get:->
 			@_num_signals
 		set: (num_signals)->
-			@_num_signals = @num_signals
+			@_num_signals = num_signals
 			@_d = Math.round @num_cells/@_num_signals
-			@_offset = Math.round(@_offset * @num_signals)/@num_signals
+			@_offset = Math.round(@_offset * @_num_signals)/@_num_signals
 
 	@property 'offset',
 		get:->
 			@_offset
 		set:(offset)->
-			@_offset = Math.round(@_offset * @num_signals)/@num_signals
+			@_offset = Math.round(offset * @_num_signals)/@_num_signals
 
 
 	advance: ->
