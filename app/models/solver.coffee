@@ -19,7 +19,7 @@ class Solver
 
 	make_table:->
 		red_time = S.red_time
-		kj = S.q0*(1/S.vf+1/S.w)
+		kj = S.kj
 		res = []
 		[time_stopped,l] = [1000,-1]
 		while time_stopped>0 and ++l<50
