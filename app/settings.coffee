@@ -11,9 +11,11 @@ class Settings
 			_num_signals: 50
 			_offset: .3
 			_d: 2000/50
+			_kj: 3*(1/3+1/1)
+			_k0: 1
 			time: 0
 			space: 3
-			red: .5
+			red: .02
 			cycle: 50
 			vf: 3
 			w: 1
@@ -36,6 +38,21 @@ class Settings
 
 	sum: ->
 		@cycle + @offset + @q0 + @red + @d
+
+	@property 'kj',
+		get:->
+			@_kj
+		set: (kj)->
+			@_kj = kj
+			@w = @q0/(kj - @k0)
+
+	@property 'k0',
+		get:->
+			@_k0
+		set: (k0)->
+			@_k0 = k0
+			@q0 = @vf*k0
+			@w = @q0/(@kj - k0)
 
 	@property 'num_cars', 
 		get:->

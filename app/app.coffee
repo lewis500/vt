@@ -32,7 +32,7 @@ class Ctrl
 			@traffic.reset_signals()
 			@data_theory = @solver.find_mfd()
 
-		@scope.$watch 'S.q0',=>
+		@scope.$watch 'S.q0 + S.w',=>
 			@data_theory = @solver.find_mfd()
 		
 	# on_change: ->
