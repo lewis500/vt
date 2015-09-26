@@ -11,15 +11,15 @@ class Settings
 			_num_signals: 50
 			_offset: .3
 			_d: 2000/50
-			_kj: 3*(1/3+1/1)
+			_kj: 1*(3+1/1)
 			_k0: 1
 			time: 0
 			space: 3
 			red: .02
 			cycle: 50
-			vf: 3
-			w: 1
-			q0: 3
+			vf: 1
+			w: 1/3
+			q0: 1
 
 		@colors = d3.scale.linear()
 			.domain _.range 0,@num_cells,@num_cells/6
@@ -36,8 +36,8 @@ class Settings
 			.domain [0,@num_cells]
 			.range [0,360]
 
-	sum: ->
-		@cycle + @offset + @q0 + @red + @d
+	# sum: ->
+	# 	@cycle + @offset + @q0 + @red + @d
 
 	@property 'kj',
 		get:->
@@ -97,7 +97,6 @@ class Settings
 			@_offset
 		set:(offset)->
 			@_offset = Math.round(offset * @_num_signals)/@_num_signals
-
 
 	advance: ->
 		@time++

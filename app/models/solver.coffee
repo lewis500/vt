@@ -7,7 +7,7 @@ class Light
 		@x = S.d * @l
 
 	intersect:(t)->
-		offset = Math.abs(S.delta*@l)
+		offset = S.delta*@l
 		leftover = (t+offset)%S.cycle
 		if leftover<(S.red*S.cycle)
 			0
@@ -19,8 +19,7 @@ class Solver
 
 	make_table:->
 		red_time = S.red_time
-		# kj = S.q0*(1/S.vf+1/S.w)
-		kj = S.kj
+		kj = S.q0*(1/S.vf+1/S.w)
 		res = []
 		[time_stopped,l] = [1000,-1]
 		while time_stopped>0 and ++l<50
@@ -46,7 +45,7 @@ class Solver
 				t: time_arrival + time_stopped
 				g: time_stopped
 				l: l
-				c: kj*time_traveling + S.q0*time_stopped
+				c: -light.x*kj + S.q0*time_stopped
 		res
 
 	find_min: (k,table)->
@@ -54,7 +53,7 @@ class Solver
 		res = {}
 		for e in table
 			flow_l = (e.c + k*e.x)/(e.t)
-			if flow_l<flow
+			if flow_l<=flow
 				flow = flow_l
 				res = _.clone e
 		res.k = k
