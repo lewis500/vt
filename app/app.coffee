@@ -38,9 +38,7 @@ class Ctrl
 	pause: -> @paused = true
 	tick: ->
 		d3.timer =>
-				# S.advance()
 				@traffic.tick()
-				# @scope.$broadcast 'tick'
 				@scope.$evalAsync()
 				@paused
 	play: ->
@@ -55,44 +53,40 @@ visDer = ->
 		templateUrl: './dist/vis.html'
 		controller: ['$scope', Ctrl]
 
-carDer = ->
-	directive = 
-		scope:
-			cars: '='
-		link: (scope,el,attr)->
-			sel = d3.select el[0]
-				.select '.cars'
+# carDer = ->
+# 	directive = 
+# 		scope:
+# 			cars: '='
+# 		link: (scope,el,attr)->
+# 			sel = d3.select el[0]
+# 				.select '.cars'
 
-			scope.$on 'tick',->
+# 			scope.$on 'tick',->
 
-				sel.selectAll '.g-car'
-					.data scope.cars, (d)-> d.id
-					.attr 'transform', (d)->"rotate(#{S.scale(d.loc)}) translate(0,50)"
+# 				sel.selectAll '.g-car'
+# 					.data scope.cars, (d)-> d.id
+# 					.attr 'transform', (d)->"rotate(#{S.scale(d.loc)}) translate(0,50)"
 
-			update = ->
-				cars = sel.selectAll '.g-car'		
-					.data scope.cars, (d)-> d.id
+# 			update = ->
+# 				cars = sel.selectAll '.g-car'		
+# 					.data scope.cars, (d)-> d.id
 
-				new_cars = cars.enter()
-					.append 'g'
-					.attr
-						class: 'g-car'
-						# transform: (d)->"rotate(#{S.scale(d.loc)}) translate(0,50)"
+# 				new_cars = cars.enter()
+# 					.append 'g'
+# 					.attr
+# 						class: 'g-car'
 
-				cars.exit().remove()
+# 				cars.exit().remove()
 					
-				new_cars.append 'rect'
-					.attr
-						width: .2
-						height: 2
-						y: -1
-						x: -.1
-						fill: (d)->d.color
+# 				new_cars.append 'rect'
+# 					.attr
+# 						width: .2
+# 						height: 2
+# 						y: -1
+# 						x: -.1
+# 						fill: (d)->d.color
 
-				# cars.attr 'transform', (d)->"rotate(#{S.scale(d.loc)}) translate(0,50)"
-
-			scope.$watch 'cars.length', update
-
+# 			scope.$watch 'cars.length', update
 
 angular.module 'mainApp' , [require 'angular-material' , require 'angular-animate']
 	.directive 'visDer', visDer
@@ -103,4 +97,3 @@ angular.module 'mainApp' , [require 'angular-material' , require 'angular-animat
 	.directive 'verAxis', require './directives/yAxis'
 	.directive 'sliderDer', require './directives/slider'
 	.directive 'shifter',require './directives/shifter'
-	.directive 'carDer', carDer

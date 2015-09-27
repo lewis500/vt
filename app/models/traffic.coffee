@@ -10,29 +10,30 @@ class Memory
 		@long_term = []
 		@reset()
 	reset:->
-		[@q,@k,@i] = [0,0,-1]
+		[@q,@k,@i] = [0,0,0]
 
-	span: 50
+	span: 30
 
 	remember:(q,k)->
 		@i++
 		@q+=q
 		@k+=k
-		if @i>@span
+		if @i>=@span
 			@long_term.push 
 				q: @q/(@span*S.num_cells)
 				k: @k/(@span*S.num_cells)
 				id: _.uniqueId 'memory-'
 			@reset()
-			if @long_term>50 then @long_term.shift()
+			if @long_term.length>10 then @long_term.shift()
 
 class Traffic
 	constructor: ->
 		@cells = (new Cell n for n in [0...S.num_cells])
 		for cell,i in @cells
 			cell.next = @cells[(i+1)%@cells.length]
-		@make_signals()
 		@cars = []
+		@signals = []
+		@make_signals()
 		@make_cars()
 		@memory = new Memory()
 
@@ -40,25 +41,32 @@ class Traffic
 		if !cell.car then cell else @choose_cell(cell.next)
 
 	make_cars: ->
-		cell.remove() for cell in @cells
-		@cars = []
-		num_cars = S.num_cars
-		num_cells = S.num_cells
-		for i in [0...num_cars]
-			car = new Car()
-			@cars.push car
-			which = Math.floor(i/num_cars*num_cells)
-			cell = @choose_cell @cells[which]
+		{num_cars,num_cells} = S
+		cell.reset() for cell in @cells
+		diff = num_cars - @cars.length
+		if diff<0
+			@cars = _.drop @cars, -diff
+		else
+			for i in [0...diff]
+				@cars.push new Car()
+
+		for car,i in @cars
+			cell = @choose_cell @cells[Math.floor(i/num_cars*num_cells)]
 			cell.receive car
 
 	make_signals:->
+		{num_signals,num_cells} = S
 		cell.clear_signal() for cell in @cells
-		@signals = []
-		num_signals = S.num_signals
-		num_cells = S.num_cells
-		for i in [0...num_signals]
-			signal = new Signal i
-			@signals.push signal
+		l = @signals.length
+		diff = num_signals - l
+		if diff<0
+			@signals = _.drop @signals, -diff
+		else
+			for i in [0...diff]
+				@signals.push new Signal l+i
+
+		for signal,i in @signals
+			signal.reset()
 			which = Math.floor(i/num_signals*num_cells)
 			@cells[which].set_signal signal
 
@@ -71,7 +79,7 @@ class Traffic
 
 		signal.tick() for signal in @signals
 
-		for cell,i in C
+		for cell in C
 			if cell.car
 				if cell.next.is_free()
 					cell.next.receive cell.car

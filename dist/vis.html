@@ -9,11 +9,8 @@
   </div>
   <div layout="column" flex="flex">
     <slider-der flex="flex" min="0.02" max="1" step=".02" label="red" my-data="S.red"></slider-der>
-    <slider-der flex="flex" min="5" max="200" step="5" label="#signals" my-data="S.num_signals" getter="true"></slider-der>{{S.k}}
-    {{1/S.kj}}
-    {{1/S.w}}
-    <slider-der flex="flex" min=".01" max=".5" step=".01" label="kj" my-data="S.kj" getter="true"></slider-der>
-    <slider-der flex="flex" min=".01" max=".25" step=".01" label="k0" my-data="S.k0" getter="true"></slider-der>
+    <slider-der flex="flex" min="5" max="200" step="5" label="#signals" my-data="S.num_signals" getter="true"></slider-der>
+    <slider-der flex="flex" min=".01" max=".5" step=".01" label="k0" my-data="S.k0" getter="true"></slider-der>
   </div>
 </div>
 <svg version="1.1" baseProfile="basic" x="0" y="0" viewBox="0 0 110 110" class="vis">
@@ -21,8 +18,7 @@
     <circle r="50" class="road"></circle>
     <g class="cars">
       <g ng-repeat="car in traffic.cars track by car.id" ng-attr-transform="{{vm.rotator(car)}}" class="g-car">
-        <rect width=".2" height="2" y="-1" x="-.1" ng-attr-fill="{{::car.color}}" class="car">
-        </rect>
+        <rect width=".2" height="2" y="-1" x="-.1" ng-attr-fill="{{::car.color}}" class="car"></rect>
       </g>
     </g>
     <g class="signals">

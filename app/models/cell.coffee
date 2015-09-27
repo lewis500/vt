@@ -3,7 +3,7 @@ _ = require 'lodash'
 
 class Cell
 	constructor: (@loc)->
-		@been_free = 0
+		@been_free = Infinity
 		@temp_car = @car = false
 		@id = _.uniqueId 'cell'
 		@signal = undefined
@@ -18,23 +18,28 @@ class Cell
 	receive:(car)->
 		car.set_loc @loc
 		@temp_car = car
+		@been_free = 0
 		car.cell = this
 
+	reset: ->
+		@been_free = Infinity
+		@temp_car = @car = false
+
 	remove: ->
-		@been_free = 0
+		@been_free = 1
 		@temp_car = @car = false
 
 	finalize: ->
 		@car = @temp_car
-		if @car
+		if !!@car
 			@been_free=0
 		else
 			@been_free++
 
 	is_free: ->
-		# if @signal
-		# 	return (@signal.green and (@been_free>(1/S.kj)))
-		# else
-		@been_free>(1/S.kj)
+		if @signal
+			return (@signal.green and (@been_free>(1/S.w)))
+		else
+			@been_free>(1/S.w)
 
 module.exports = Cell

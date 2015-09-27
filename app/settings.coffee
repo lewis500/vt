@@ -11,14 +11,14 @@ class Settings
 			_num_signals: 50
 			_offset: .3
 			_d: 1000/50
-			_kj: 1/3
-			_k0: 1/9
+			kj: 1
+			_k0: 1/3
 			time: 0
 			red: .02
 			cycle: 50
 			vf: 1
 
-		@kj = 1/3
+		@k0 = 1/3
 
 		@colors = d3.scale.linear()
 			.domain _.range 0,@num_cells,@num_cells/6
@@ -35,31 +35,16 @@ class Settings
 			.domain [0,@num_cells]
 			.range [0,360]
 
-	# @property 'w',
-	# 	get:->
-
 	@property 'q0',
 		get:->
 			@_k0
-			# @w = @_k0/(@_kj - @_k0)
-
-	@property 'kj',
-		get:->
-			@_kj
-		set: (kj)->
-			# @_kj = 1/Math.round(1/kj)
-			@_kj = kj
-			@w = @_k0/(@_kj - @_k0)
 
 	@property 'k0',
 		get:->
 			@_k0
 		set: (k0)->
-			# @_k0 = 1/Math.round(1/k0)
-			@_k0 = k0
-			# @q0 = @vf*@_k0
-			@w = @_k0/(@_kj - @_k0)
-
+			@_k0 = 1/Math.round(1/k0)
+			@w = @_k0/(@kj - @_k0)
 
 	@property 'num_cars', 
 		get:->
