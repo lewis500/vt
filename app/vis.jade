@@ -1,14 +1,16 @@
 div(layout='row' flex)
 	md-switch(flex='20' ng-model='vm.paused' ng-change='vm.click(vm.paused)') {{vm.paused? 'Paused' : 'Play'}}
 	div(layout='column' flex)
+		b signal params
 		slider-der(flex min= '5' max='100' step='1' label='cycle' my-data='S.cycle')
 		slider-der(flex min= '0' max='1' step='.1' label='offset' my-data='S.offset' getter='true')
-		slider-der(flex min= '1' max='100' step='5' label='d' my-data='S.d' getter='true')
-		slider-der(flex min= '1' max='S.num_cells' step='25' label='# cars' my-data='S.num_cars' getter='true')
+		slider-der(flex min= '1' max='100' step='5' label='distance' my-data='S.d' getter='true')
+		slider-der(flex min= '0.02' max='1' step='.02' label='red' my-data='S.red')
 
 	div(layout='column' flex)
-		slider-der(flex min= '0.02' max='1' step='.02' label='red' my-data='S.red')
-		slider-der(flex min= '5' max='200' step='5' label='#signals' my-data='S.num_signals' getter='true')
+		b density
+		slider-der(flex min= '.025' max='1' step='.025' label='k' my-data='S.k' getter='true')
+		//- slider-der(flex min= '5' max='200' step='5' label='#signals' my-data='S.num_signals' getter='true')
 		slider-der(flex min= '.01' max='.5' step='.01' label='k0' my-data='S.k0' getter='true')
 			
 svg.vis(version="1.1" baseProfile="basic" x="0" y="0" viewBox="0 0 110 110")

@@ -57,8 +57,8 @@ class Settings
 		get:->
 			@_k
 		set:(k)->
-			@_k = k
 			@_num_cars = Math.round k*@num_cells
+			@_k = @_num_cars/@num_cells
 
 	@property 'delta',
 		get: ->
