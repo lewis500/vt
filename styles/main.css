@@ -6829,7 +6829,7 @@ input[type="number"] {
 .road {
   fill: none;
   stroke-width: 5px;
-  stroke: #e0e0e0;
+  stroke: #eeeeee;
 }
 .gradient circle {
   stroke: #212121;
