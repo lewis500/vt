@@ -5,21 +5,20 @@ require './helpers'
 class Settings
 	constructor:->
 		_.assign this,
-			num_cells: 2000
+			num_cells: 1000
 			_num_cars: 300
-			_k: 300/2000
+			_k: 300/1000
 			_num_signals: 50
 			_offset: .3
-			_d: 2000/50
-			_kj: 1*(3+1/1)
-			_k0: 1
+			_d: 1000/50
+			_kj: 1/3
+			_k0: 1/9
 			time: 0
-			space: 3
 			red: .02
 			cycle: 50
 			vf: 1
-			w: 1/3
-			q0: 1
+
+		@kj = 1/3
 
 		@colors = d3.scale.linear()
 			.domain _.range 0,@num_cells,@num_cells/6
@@ -36,37 +35,45 @@ class Settings
 			.domain [0,@num_cells]
 			.range [0,360]
 
-	# sum: ->
-	# 	@cycle + @offset + @q0 + @red + @d
+	# @property 'w',
+	# 	get:->
+
+	@property 'q0',
+		get:->
+			@_k0
+			# @w = @_k0/(@_kj - @_k0)
 
 	@property 'kj',
 		get:->
 			@_kj
 		set: (kj)->
+			# @_kj = 1/Math.round(1/kj)
 			@_kj = kj
-			@w = @q0/(kj - @k0)
+			@w = @_k0/(@_kj - @_k0)
 
 	@property 'k0',
 		get:->
 			@_k0
 		set: (k0)->
+			# @_k0 = 1/Math.round(1/k0)
 			@_k0 = k0
-			@q0 = @vf*k0
-			@w = @q0/(@kj - k0)
+			# @q0 = @vf*@_k0
+			@w = @_k0/(@_kj - @_k0)
+
 
 	@property 'num_cars', 
 		get:->
 			@_num_cars
 		set:(num_cars)->
 			@_num_cars = Math.round num_cars
-			@_k = v/S.num_cells
+			@_k = @_num_cars/@num_cells
 
 	@property 'k',
 		get:->
 			@_k
 		set:(k)->
 			@_k = k
-			@_num_cars = Math.round k*S.num_cells
+			@_num_cars = Math.round k*@num_cells
 
 	@property 'delta',
 		get: ->

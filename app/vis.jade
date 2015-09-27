@@ -4,25 +4,29 @@ div(layout='row' flex)
 		slider-der(flex min= '5' max='100' step='1' label='cycle' my-data='S.cycle')
 		slider-der(flex min= '0' max='1' step='.1' label='offset' my-data='S.offset' getter='true')
 		slider-der(flex min= '1' max='100' step='5' label='d' my-data='S.d' getter='true')
+		slider-der(flex min= '1' max='S.num_cells' step='25' label='# cars' my-data='S.num_cars' getter='true')
+
 	div(layout='column' flex)
 		slider-der(flex min= '0.02' max='1' step='.02' label='red' my-data='S.red')
 		slider-der(flex min= '5' max='200' step='5' label='#signals' my-data='S.num_signals' getter='true')
-		{{S.q0}}
-		//- slider-der(flex min= '.25' max='5' step='.25' label='q_0' my-data='S.q0')
 
-		slider-der(flex min= '2' max='8' step='.01' label='kj' my-data='S.kj' getter='true')
-		slider-der(flex min= '.1' max='S.kj' step='.01' label='k0' my-data='S.k0' getter='true')
-		//- slider-der(flex min= '.2' max='5' step='.05' label='v_f' my-data='S.vf')
-		//- slider-der(flex min= '.2' max='(S.vf/2)' step='.05' label='w' my-data='S.w')
+		{{S.k}}
+		{{1/S.kj}}
+		{{1/S.w}}
+
+
+		slider-der(flex min= '.01' max='.5' step='.01' label='kj' my-data='S.kj' getter='true')
+		slider-der(flex min= '.01' max='.25' step='.01' label='k0' my-data='S.k0' getter='true')
 			
 svg.vis(version="1.1" baseProfile="basic" x="0" y="0" viewBox="0 0 110 110")
-	g.g-main(transform='translate(55,55)')
+	g.g-main(transform='translate(55,55)' )
 		circle.road(r='50')
 		g.cars
 			g.g-car(ng-repeat='car in traffic.cars track by car.id' ng-attr-transform='{{vm.rotator(car)}}')
-				rect.car( width='.5' height='2' y='-1' x='-.25' ng-attr-fill='{{::car.color}}')
+				rect.car( width='.2' height='2' y='-1' x='-.1' ng-attr-fill='{{::car.color}}')
+					//- 
 		g.signals
 			g.g-signal(ng-repeat='s in traffic.signals track by s.id' d3-der='{transform: vm.rotator(s) }' )
 				rect.signal(width='.5' height='5' y='-2' x='-.25' ng-class='{"red": (!s.green)}')
 
-mfd-chart(data='vm.data_theory')
+mfd-chart(data='vm.data_theory' memory='vm.traffic.memory.long_term')

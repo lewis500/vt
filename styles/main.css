@@ -6809,8 +6809,8 @@ input[type="number"] {
   text-align: center;
 }
 .memory {
-  fill: #9c27b0;
-  opacity: 0.8;
+  fill: #03a9f4;
+  opacity: 0.5;
 }
 .signal {
   stroke: #424242;
@@ -6851,14 +6851,8 @@ rect.bg {
   stroke-width: 1px;
   fill: none;
 }
-.en {
-  stroke: #e91e63;
-}
 .flow {
-  stroke: #4caf50;
-}
-.ex {
-  stroke: #03a9f4;
+  stroke: #e91e63;
 }
 text.label {
   font-size: 5px;

@@ -1,10 +1,12 @@
 S = require '../settings'
 _ = require 'lodash'
 
+n = 0
+
 class Car
 	constructor:->
-		@id = _.uniqueId 'car-'
-		@color = _.sample S.colors.domain()
+		@id = n++
+		@color = _.sample S.colors.range()
 
 	set_loc: (@loc)->
 
