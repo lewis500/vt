@@ -18,18 +18,23 @@ class Ctrl
 		@scope.S = S
 
 		@scope.$watch 'S.num_cars', =>
+			# S.time = 0
 			@traffic.make_cars()
-			@data_theory = @solver.find_mfd()
 
 		@scope.$watch 'S.num_signals', =>
+			# S.time = 0
 			@traffic.make_signals()
+			# @traffic.make_cars()
 			@data_theory = @solver.find_mfd()
 
 		@scope.$watch 'S.offset + S.cycle + S.red',=>
-			@traffic.reset_signals()
+			# @traffic.make_cars()
+			# S.time = 0
 			@data_theory = @solver.find_mfd()
 
 		@scope.$watch 'S.q0 + S.w',=>
+			# S.time = 0
+			# @traffic.make_cars()
 			@data_theory = @solver.find_mfd()
 		
 	rotator: (car)-> "rotate(#{S.scale(car.loc)}) translate(0,50)"
@@ -38,7 +43,9 @@ class Ctrl
 	pause: -> @paused = true
 	tick: ->
 		d3.timer =>
-				@traffic.tick()
+				for i in [0..6]
+					S.time++
+					@traffic.tick()
 				@scope.$evalAsync()
 				@paused
 	play: ->
@@ -52,41 +59,6 @@ visDer = ->
 		controllerAs: 'vm'
 		templateUrl: './dist/vis.html'
 		controller: ['$scope', Ctrl]
-
-# carDer = ->
-# 	directive = 
-# 		scope:
-# 			cars: '='
-# 		link: (scope,el,attr)->
-# 			sel = d3.select el[0]
-# 				.select '.cars'
-
-# 			scope.$on 'tick',->
-
-# 				sel.selectAll '.g-car'
-# 					.data scope.cars, (d)-> d.id
-# 					.attr 'transform', (d)->"rotate(#{S.scale(d.loc)}) translate(0,50)"
-
-# 			update = ->
-# 				cars = sel.selectAll '.g-car'		
-# 					.data scope.cars, (d)-> d.id
-
-# 				new_cars = cars.enter()
-# 					.append 'g'
-# 					.attr
-# 						class: 'g-car'
-
-# 				cars.exit().remove()
-					
-# 				new_cars.append 'rect'
-# 					.attr
-# 						width: .2
-# 						height: 2
-# 						y: -1
-# 						x: -.1
-# 						fill: (d)->d.color
-
-# 			scope.$watch 'cars.length', update
 
 angular.module 'mainApp' , [require 'angular-material' , require 'angular-animate']
 	.directive 'visDer', visDer

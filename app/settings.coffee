@@ -6,16 +6,16 @@ class Settings
 	constructor:->
 		_.assign this,
 			num_cells: 1000
-			_num_cars: 300
-			_k: 300/1000
-			_num_signals: 50
-			_offset: .3
-			_d: 1000/50
+			_num_cars: 550
+			_k: 550/1000
+			_num_signals: 1000/20
+			_offset: .2
+			_d: 20
 			kj: 1
 			_k0: 1/3
 			time: 0
-			red: .02
-			cycle: 50
+			red: 50
+			cycle: 100
 			vf: 1
 
 		@k0 = 1/3
@@ -34,6 +34,10 @@ class Settings
 		@scale = d3.scale.linear()
 			.domain [0,@num_cells]
 			.range [0,360]
+
+	@property 'green',
+		get: ->
+			@cycle - @red
 
 	@property 'q0',
 		get:->
@@ -66,7 +70,7 @@ class Settings
 
 	@property 'red_time',
 		get:->
-			@cycle * @red
+			@red
 
 	@property 'd', 
 		get:->

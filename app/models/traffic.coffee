@@ -18,13 +18,14 @@ class Memory
 		@i++
 		@q+=q
 		@k+=k
-		if @i>=@span
+		span = S.cycle
+		if @i>=span
 			@long_term.push 
-				q: @q/(@span*S.num_cells)
-				k: @k/(@span*S.num_cells)
+				q: @q/(span*S.num_cells)
+				k: @k/(span*S.num_cells)
 				id: _.uniqueId 'memory-'
 			@reset()
-			if @long_term.length>10 then @long_term.shift()
+			if @long_term.length>3 then @long_term.shift()
 
 class Traffic
 	constructor: ->
@@ -45,20 +46,21 @@ class Traffic
 		cell.reset() for cell in @cells
 		diff = num_cars - @cars.length
 		if diff<0
-			@cars = _.drop @cars, -diff
+			@cars = _.drop _.shuffle(@cars), -diff
 		else
 			for i in [0...diff]
 				@cars.push new Car()
-
+		free_cells = _.shuffle _.clone _.filter @cells, (c)->c.is_free()
 		for car,i in @cars
-			cell = @choose_cell @cells[Math.floor(i/num_cars*num_cells)]
+			cell = free_cells.pop()
+			# cell = @choose_cell @cells[Math.floor(i/num_cars*num_cells)]
 			cell.receive car
 
 	make_signals:->
 		{num_signals,num_cells} = S
 		cell.clear_signal() for cell in @cells
 		l = @signals.length
-		diff = num_signals - l
+		diff = num_signals-l
 		if diff<0
 			@signals = _.drop @signals, -diff
 		else
@@ -66,12 +68,8 @@ class Traffic
 				@signals.push new Signal l+i
 
 		for signal,i in @signals
-			signal.reset()
 			which = Math.floor(i/num_signals*num_cells)
 			@cells[which].set_signal signal
-
-	reset_signals:->
-		signal.reset() for signal in @signals
 
 	tick:->
 		C = @cells

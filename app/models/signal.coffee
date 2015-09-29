@@ -6,17 +6,12 @@ class Signal
 		@count = 0
 		@green = true
 		@id = _.uniqueId 'signal-'
-		@reset()
-
-	reset: ->
-		@offset = S.cycle*((@i*S.offset)%1)
-		[@count, @green] = [@offset, true]
 
 	tick: ->
-		@count++
-		if @count > S.cycle
-			[@count, @green] = [0, true]
-		if (@count)>=((1-S.red)*S.cycle)
+		e = (S.time - @i*S.delta)%S.cycle
+		if e>=S.green
 			@green = false
+		else
+			@green=true
 
 module.exports = Signal

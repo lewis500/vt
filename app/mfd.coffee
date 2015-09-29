@@ -18,7 +18,7 @@ class Ctrl
 				.range [0,@width]
 
 		@ver = d3.scale.linear()
-			.domain [0, 1/3]
+			.domain [0, .5]
 			.range [@height, 0]
 
 		@line = d3.svg.line()
